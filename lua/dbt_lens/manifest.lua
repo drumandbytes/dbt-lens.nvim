@@ -7,6 +7,7 @@ local M = {}
 ---@field package string
 ---@field version? integer|string
 ---@field latest_version? integer|string
+---@field fqn string[] dbt's fully qualified name, the safe selector (`demo.staging.stg_orders`)
 ---@field path string original_file_path (relative to its package root)
 ---@field patch_path? string
 ---@field materialized? string
@@ -32,6 +33,7 @@ local M = {}
 ---@class dbt_lens.Index
 ---@field nodes table<string, dbt_lens.Node>
 ---@field sources table<string, dbt_lens.Source>
+---@field tests table<string, { uid: string, name: string, package: string, path: string }> run_results lookup only
 ---@field macro_by_uid table<string, dbt_lens.Macro>
 ---@field by_name table<string, string[]> model name -> uids (root project first)
 ---@field by_file table<string, string> "<package>:<path>" -> uid
@@ -66,6 +68,7 @@ function M.build_index(m, root_package)
   local idx = {
     nodes = {},
     sources = {},
+    tests = {},
     macro_by_uid = {},
     by_name = {},
     by_file = {},
@@ -94,6 +97,7 @@ function M.build_index(m, root_package)
         kind = n.resource_type,
         name = n.name,
         package = n.package_name,
+        fqn = n.fqn or { n.package_name, n.name },
         version = n.version,
         latest_version = n.latest_version,
         path = n.original_file_path,
@@ -109,6 +113,9 @@ function M.build_index(m, root_package)
       idx.by_name[n.name] = idx.by_name[n.name] or {}
       table.insert(idx.by_name[n.name], uid)
       idx.by_file[n.package_name .. ':' .. n.original_file_path] = uid
+    end
+    if n.resource_type == 'test' then
+      idx.tests[uid] = { uid = uid, name = n.name, package = n.package_name, path = n.original_file_path }
     end
   end
   for _, uids in pairs(idx.by_name) do
@@ -159,6 +166,24 @@ function M.build_index(m, root_package)
   filtered(m.parent_map, idx.parents)
   filtered(m.child_map, idx.children)
   return idx
+end
+
+--- Pure: the model/seed/snapshot behind a file inside the project. `rel` is relative to the project root;
+--- files under the packages dir (`dbt_packages/<pkg>/...`) are matched inside their package.
+---@param idx dbt_lens.Index
+---@param project_name string
+---@param rel string
+---@param packages_path? string default dbt_packages
+---@return dbt_lens.Node?
+function M.node_for_path(idx, project_name, rel, packages_path)
+  packages_path = (packages_path or 'dbt_packages') .. '/'
+  local pkg, path = project_name, rel
+  if vim.startswith(rel, packages_path) then
+    pkg, path = rel:sub(#packages_path + 1):match '^([^/]+)/(.+)$'
+    if not pkg then return nil end
+  end
+  local uid = idx.by_file[pkg .. ':' .. path]
+  return uid and idx.nodes[uid] or nil
 end
 
 --- Pure: which model does `ref(name[, package][, v=version])` mean?

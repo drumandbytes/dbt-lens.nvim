@@ -4,12 +4,13 @@ local M = {}
 ---@field root string absolute project root
 ---@field name string? from dbt_project.yml
 ---@field target_path string absolute path of the dbt target dir
+---@field packages_path string packages install dir, relative to root
 ---@field model_paths string[] relative to root
 ---@field cmd string[]? dbt invocation, nil when none found
 
 --- Flat scan of dbt_project.yml: top-level scalars and inline lists only, which is all we need.
 ---@param text string
----@return { name: string?, target_path: string?, model_paths: string[]? }
+---@return { name: string?, target_path: string?, model_paths: string[]?, packages_path: string? }
 function M.parse_project_yml(text)
   local out = {}
   for line in text:gmatch '[^\r\n]+' do
@@ -20,6 +21,8 @@ function M.parse_project_yml(text)
         out.name = value:match '^[\'"]?([^\'"]+)[\'"]?$'
       elseif key == 'target-path' then
         out.target_path = value:match '^[\'"]?([^\'"]+)[\'"]?$'
+      elseif key == 'packages-install-path' then
+        out.packages_path = value:match '^[\'"]?([^\'"]+)[\'"]?$'
       elseif key == 'model-paths' then
         local inner = value:match '^%[(.*)%]$'
         if inner then
@@ -73,9 +76,33 @@ function M.get(buf)
     root = root,
     name = parsed.name,
     target_path = target,
+    packages_path = parsed.packages_path or 'dbt_packages',
     model_paths = parsed.model_paths or { 'models' },
     cmd = M.resolve_cmd(root, require('dbt_lens.config').get().cmd),
   }
+end
+
+--- Absolute path of a node's (or source's, or macro's) file.
+---@param project dbt_lens.Project
+---@param package string
+---@param path string original_file_path
+---@return string
+function M.abs_path(project, package, path)
+  if package == project.name then return project.root .. '/' .. path end
+  return ('%s/%s/%s/%s'):format(project.root, project.packages_path, package, path)
+end
+
+--- Path of a buffer relative to the project root, nil when outside it.
+---@param project dbt_lens.Project
+---@param buf? integer
+---@return string?
+function M.rel_path(project, buf)
+  local name = vim.api.nvim_buf_get_name(buf or 0)
+  local real = vim.uv.fs_realpath(name)
+  if not real then return nil end
+  local root = vim.uv.fs_realpath(project.root) or project.root
+  if not vim.startswith(real, root .. '/') then return nil end
+  return real:sub(#root + 2)
 end
 
 return M

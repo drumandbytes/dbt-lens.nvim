@@ -56,7 +56,95 @@ function subcommands.refresh()
   end)
 end
 
-local planned = { 'run', 'test', 'build', 'goto', 'lineage', 'compiled', 'show', 'models' }
+---@return dbt_lens.Project?, dbt_lens.Index?
+local function load_project()
+  local project = require('dbt_lens.project').get()
+  if not project then
+    vim.notify('dbt-lens: no dbt_project.yml found', vim.log.levels.WARN)
+    return
+  end
+  local idx, err = require('dbt_lens.manifest').load(project)
+  if not idx then
+    vim.notify('dbt-lens: ' .. err .. ' (run :DbtLens refresh)', vim.log.levels.WARN)
+    return project
+  end
+  return project, idx
+end
+
+---@param project dbt_lens.Project
+---@param idx dbt_lens.Index
+---@return dbt_lens.Node?
+local function current_node(project, idx)
+  local rel = require('dbt_lens.project').rel_path(project)
+  return rel and require('dbt_lens.manifest').node_for_path(idx, project.name, rel, project.packages_path)
+end
+
+---@param idx dbt_lens.Index
+---@return dbt_lens.Node[]
+local function sorted_models(idx)
+  local list = vim.tbl_values(idx.nodes)
+  table.sort(list, function(a, b)
+    if a.package ~= b.package then return a.package < b.package end
+    return table.concat(a.fqn, '.') < table.concat(b.fqn, '.')
+  end)
+  return list
+end
+
+---@param idx dbt_lens.Index
+---@param prompt string
+---@param on_choice fun(node: dbt_lens.Node)
+local function pick_model(idx, prompt, on_choice)
+  require('dbt_lens.pick').pick(sorted_models(idx), {
+    prompt = prompt,
+    format = function(n) return table.concat(n.fqn, '.') .. (n.materialized and ('  (' .. n.materialized .. ')') or '') end,
+  }, function(node)
+    if node then on_choice(node) end
+  end)
+end
+
+---@param sub string
+---@return fun(args: string[])
+local function dbt_job(sub)
+  return function(args)
+    local project, idx = load_project()
+    if not project then return end
+    local selector = table.concat(args, ' ')
+    local runner = require 'dbt_lens.runner'
+    if selector == '' and not idx then return runner.run(project, sub, nil) end -- no manifest: whole project
+    local node = idx and current_node(project, idx)
+    if selector == '' then
+      if node then return runner.run(project, sub, table.concat(node.fqn, '.')) end
+      -- not in a model file: choose one
+      return pick_model(idx, 'dbt ' .. sub, function(n) runner.run(project, sub, table.concat(n.fqn, '.')) end)
+    end
+    local expanded = runner.expand_selector(selector, node)
+    if not expanded then
+      return vim.notify('dbt-lens: `%` needs a model file in the current buffer', vim.log.levels.WARN)
+    end
+    runner.run(project, sub, expanded)
+  end
+end
+
+subcommands.run = dbt_job 'run'
+subcommands.test = dbt_job 'test'
+subcommands.build = dbt_job 'build'
+
+function subcommands.cancel()
+  local project = require('dbt_lens.project').get()
+  if project then require('dbt_lens.runner').cancel(project) end
+end
+
+function subcommands.models()
+  local project, idx = load_project()
+  if not (project and idx) then return end
+  pick_model(
+    idx,
+    'Open model',
+    function(n) vim.cmd.edit(vim.fn.fnameescape(require('dbt_lens.project').abs_path(project, n.package, n.path))) end
+  )
+end
+
+local planned = { 'goto', 'lineage', 'compiled', 'show' }
 
 function M.command(opts)
   local sub = opts.fargs[1]
