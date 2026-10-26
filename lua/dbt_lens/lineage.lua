@@ -285,7 +285,7 @@ function M.open(project, idx, node)
       end,
     })
   end
-  if vim.api.nvim_win_is_valid(prev) and not (state.win == prev) then vim.api.nvim_set_current_win(win) end
+  if vim.api.nvim_win_is_valid(prev) and state.win ~= prev then vim.api.nvim_set_current_win(win) end
   return state
 end
 
