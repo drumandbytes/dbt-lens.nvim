@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        nvim: [v0.11.6, stable]
+        nvim: [v0.11.7, stable]
     steps:
       - uses: actions/checkout@v4
       - uses: rhysd/action-setup-vim@v1
