@@ -1,0 +1,1814 @@
+{
+ "child_map": {
+  "model.demo.dim_customers": [
+   "model.demo.report_daily"
+  ],
+  "model.demo.fct_orders": [
+   "model.demo.report_daily"
+  ],
+  "model.demo.report_daily": [],
+  "model.demo.shared": [
+   "model.pkg_a.pkg_only"
+  ],
+  "model.demo.stg_customers": [
+   "model.demo.dim_customers",
+   "model.demo.fct_orders"
+  ],
+  "model.demo.stg_orders": [
+   "model.demo.fct_orders",
+   "test.demo.not_null_stg_orders_id.8cf5724805",
+   "test.demo.unique_stg_orders_id.beb6e97f2f"
+  ],
+  "model.demo.uses_pkg": [],
+  "model.demo.uses_versioned": [],
+  "model.demo.versioned.v1": [
+   "model.demo.uses_versioned"
+  ],
+  "model.demo.versioned.v2": [],
+  "model.pkg_a.pkg_only": [
+   "model.demo.uses_pkg"
+  ],
+  "model.pkg_a.shared": [],
+  "source.demo.raw.customers": [
+   "model.demo.stg_customers"
+  ],
+  "source.demo.raw.orders": [
+   "model.demo.stg_orders"
+  ],
+  "test.demo.not_null_stg_orders_id.8cf5724805": [],
+  "test.demo.unique_stg_orders_id.beb6e97f2f": []
+ },
+ "disabled": {
+  "model.demo.disabled_model": [
+   {
+    "access": "protected",
+    "alias": "disabled_model",
+    "build_path": null,
+    "checksum": {
+     "checksum": "5e2390d9b08821e5e21c4a42de78a7913070c1e480b1fc0f41fdde97ea8d8d35",
+     "name": "sha256"
+    },
+    "columns": {},
+    "compiled_path": null,
+    "config": {
+     "access": "protected",
+     "alias": null,
+     "batch_size": null,
+     "begin": null,
+     "column_types": {},
+     "concurrent_batches": null,
+     "contract": {
+      "alias_types": true,
+      "enforced": false
+     },
+     "database": null,
+     "docs": {
+      "node_color": null,
+      "show": true
+     },
+     "enabled": false,
+     "event_time": null,
+     "freshness": null,
+     "full_refresh": null,
+     "grants": {},
+     "group": null,
+     "incremental_strategy": null,
+     "lookback": 1,
+     "materialized": "view",
+     "meta": {},
+     "on_configuration_change": "apply",
+     "on_schema_change": "ignore",
+     "packages": [],
+     "persist_docs": {},
+     "post-hook": [],
+     "pre-hook": [],
+     "quoting": {},
+     "schema": null,
+     "tags": [],
+     "unique_key": null
+    },
+    "constraints": [],
+    "contract": {
+     "alias_types": true,
+     "checksum": null,
+     "enforced": false
+    },
+    "created_at": 1793032227.330875,
+    "database": "memory",
+    "depends_on": {
+     "macros": [],
+     "nodes": []
+    },
+    "deprecation_date": null,
+    "description": "",
+    "doc_blocks": [],
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "fqn": [
+     "demo",
+     "disabled_model"
+    ],
+    "group": null,
+    "language": "sql",
+    "latest_version": null,
+    "meta": {},
+    "metrics": [],
+    "name": "disabled_model",
+    "original_file_path": "models/disabled_model.sql",
+    "package_name": "demo",
+    "patch_path": null,
+    "path": "disabled_model.sql",
+    "primary_key": [],
+    "raw_code": "{{ config(enabled=false) }}\nselect 1",
+    "refs": [],
+    "relation_name": "\"memory\".\"main\".\"disabled_model\"",
+    "resource_type": "model",
+    "schema": "main",
+    "sources": [],
+    "tags": [],
+    "time_spine": null,
+    "unique_id": "model.demo.disabled_model",
+    "unrendered_config": {
+     "enabled": false
+    },
+    "version": null
+   }
+  ]
+ },
+ "docs": {
+  "doc.dbt.__overview__": {
+   "block_contents": "### Welcome!\n\nWelcome to the auto-generated documentation for your dbt project!\n\n### Navigation\n\nYou can use the `Project` and `Database` navigation tabs on the left side of the window to explore the models\nin your project.\n\n#### Project Tab\nThe `Project` tab mirrors the directory structure of your dbt project. In this tab, you can see all of the\nmodels defined in your dbt project, as well as models imported from dbt packages.\n\n#### Database Tab\nThe `Database` tab also exposes your models, but in a format that looks more like a database explorer. This view\nshows relations (tables and views) grouped into database schemas. Note that ephemeral models are _not_ shown\nin this interface, as they do not exist in the database.\n\n### Graph Exploration\nYou can click the blue icon on the bottom-right corner of the page to view the lineage graph of your models.\n\nOn model pages, you'll see the immediate parents and children of the model you're exploring. By clicking the `Expand`\nbutton at the top-right of this lineage pane, you'll be able to see all of the models that are used to build,\nor are built from, the model you're exploring.\n\nOnce expanded, you'll be able to use the `--select` and `--exclude` model selection syntax to filter the\nmodels in the graph. For more information on model selection, check out the [dbt docs](https://docs.getdbt.com/docs/model-selection-syntax).\n\nNote that you can also right-click on models to interactively filter and explore the graph.\n\n---\n\n### More information\n\n- [What is dbt](https://docs.getdbt.com/docs/introduction)?\n- Read the [dbt viewpoint](https://docs.getdbt.com/docs/viewpoint)\n- [Installation](https://docs.getdbt.com/docs/installation)\n- Join the [dbt Community](https://www.getdbt.com/community/) for questions and discussion",
+   "name": "__overview__",
+   "original_file_path": "docs/overview.md",
+   "package_name": "dbt",
+   "path": "overview.md",
+   "resource_type": "doc",
+   "unique_id": "doc.dbt.__overview__"
+  }
+ },
+ "exposures": {},
+ "group_map": {},
+ "groups": {},
+ "macros": {
+  "macro.demo.money": {
+   "arguments": [],
+   "created_at": 1793032227.070049,
+   "depends_on": {
+    "macros": [
+     "macro.pkg_a.cents_to_dollars"
+    ]
+   },
+   "description": "",
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "macro_sql": "{% macro money(column) %}\n    {{ pkg_a.cents_to_dollars(column) }}\n{% endmacro %}",
+   "meta": {},
+   "name": "money",
+   "original_file_path": "macros/money.sql",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "macros/money.sql",
+   "resource_type": "macro",
+   "supported_languages": null,
+   "unique_id": "macro.demo.money"
+  },
+  "macro.pkg_a.cents_to_dollars": {
+   "arguments": [],
+   "created_at": 1793032227.1634529,
+   "depends_on": {
+    "macros": []
+   },
+   "description": "",
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "macro_sql": "{% macro cents_to_dollars(column) %}\n    ({{ column }} / 100)\n{% endmacro %}",
+   "meta": {},
+   "name": "cents_to_dollars",
+   "original_file_path": "macros/pkg_macros.sql",
+   "package_name": "pkg_a",
+   "patch_path": null,
+   "path": "macros/pkg_macros.sql",
+   "resource_type": "macro",
+   "supported_languages": null,
+   "unique_id": "macro.pkg_a.cents_to_dollars"
+  }
+ },
+ "metadata": {
+  "adapter_type": "duckdb",
+  "dbt_schema_version": "https://schemas.getdbt.com/dbt/manifest/v12.json",
+  "dbt_version": "1.10.23",
+  "env": {},
+  "generated_at": "2026-10-26T16:30:46.566825Z",
+  "invocation_id": "cfe3f446-d638-45ab-ac3a-3ced264ed337",
+  "invocation_started_at": "2026-10-26T16:30:26.913193+00:00",
+  "project_id": "fe01ce2a7fbac8fafaed7c982a04e229",
+  "project_name": "demo",
+  "quoting": {
+   "column": null,
+   "database": true,
+   "identifier": true,
+   "schema": true
+  },
+  "send_anonymous_usage_stats": true,
+  "user_id": "ee3bf3ff-e1b7-496a-8d5a-93c15f39d7c7"
+ },
+ "metrics": {},
+ "nodes": {
+  "model.demo.dim_customers": {
+   "access": "protected",
+   "alias": "dim_customers",
+   "build_path": null,
+   "checksum": {
+    "checksum": "2735974024815b8f8b2031dbda0db2f803db829e29ef53e0659b7fb95ed7d69a",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.363928,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "model.demo.stg_customers"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "Customers",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "dim_customers"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "dim_customers",
+   "original_file_path": "models/dim_customers.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "dim_customers.sql",
+   "primary_key": [],
+   "raw_code": "select * from {{ ref('stg_customers') }}",
+   "refs": [
+    {
+     "name": "stg_customers",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"dim_customers\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.dim_customers",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.fct_orders": {
+   "access": "protected",
+   "alias": "fct_orders",
+   "build_path": null,
+   "checksum": {
+    "checksum": "812590aa60653586146c5a18856f40cc86dafec8c6adca9d6c158fa8d1d7041e",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "table",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.363796,
+   "database": "memory",
+   "depends_on": {
+    "macros": [
+     "macro.demo.money"
+    ],
+    "nodes": [
+     "model.demo.stg_orders",
+     "model.demo.stg_customers"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "Order facts",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "fct_orders"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "fct_orders",
+   "original_file_path": "models/fct_orders.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "fct_orders.sql",
+   "primary_key": [],
+   "raw_code": "{{ config(materialized='table') }}\nselect o.id, c.name, {{ money('o.amount') }} as amount\nfrom {{ ref('stg_orders') }} o\njoin {{ ref('stg_customers') }} c on c.id = o.customer_id",
+   "refs": [
+    {
+     "name": "stg_orders",
+     "package": null,
+     "version": null
+    },
+    {
+     "name": "stg_customers",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"fct_orders\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.fct_orders",
+   "unrendered_config": {
+    "materialized": "table"
+   },
+   "version": null
+  },
+  "model.demo.report_daily": {
+   "access": "protected",
+   "alias": "report_daily",
+   "build_path": null,
+   "checksum": {
+    "checksum": "4be7121f6630400f9817806a023f7d6f4f1b5e0328957ecb295832a65bb634f1",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.364039,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "model.demo.fct_orders",
+     "model.demo.dim_customers"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "Daily report",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "report_daily"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "report_daily",
+   "original_file_path": "models/report_daily.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "report_daily.sql",
+   "primary_key": [],
+   "raw_code": "{# diamond: fct_orders and dim_customers both descend from stg_customers #}\nselect f.id, d.name\nfrom {{ ref('fct_orders') }} f\njoin {{ ref('dim_customers') }} d on d.name = f.name",
+   "refs": [
+    {
+     "name": "fct_orders",
+     "package": null,
+     "version": null
+    },
+    {
+     "name": "dim_customers",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"report_daily\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.report_daily",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.shared": {
+   "access": "protected",
+   "alias": "shared",
+   "build_path": null,
+   "checksum": {
+    "checksum": "5c92dbd4fa7b541accb9de404accc4eeb832c911e9bc498d251a4a488a54af9b",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.3369422,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": []
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "shared"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "shared",
+   "original_file_path": "models/shared.sql",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "shared.sql",
+   "primary_key": [],
+   "raw_code": "select 1 as id, 'project' as origin",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"shared\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.shared",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.stg_customers": {
+   "access": "protected",
+   "alias": "stg_customers",
+   "build_path": null,
+   "checksum": {
+    "checksum": "de1b81ef7292a00b74ce7d4f92e1d653a0c0b94befd3606dbc142a20da0c4476",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.3238919,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "source.demo.raw.customers"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "stg_customers"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "stg_customers",
+   "original_file_path": "models/stg_customers.sql",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "stg_customers.sql",
+   "primary_key": [],
+   "raw_code": "select id, name from {{ source('raw', 'customers') }}",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"stg_customers\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [
+    [
+     "raw",
+     "customers"
+    ]
+   ],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.stg_customers",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.stg_orders": {
+   "access": "protected",
+   "alias": "stg_orders",
+   "build_path": null,
+   "checksum": {
+    "checksum": "e53ea2aba6e3b5ed2324907da4d403a3f64d38900d58fdfe01abf5d73b2f4ecc",
+    "name": "sha256"
+   },
+   "columns": {
+    "id": {
+     "config": {
+      "meta": {},
+      "tags": []
+     },
+     "constraints": [],
+     "data_type": null,
+     "description": "",
+     "doc_blocks": [],
+     "granularity": null,
+     "meta": {},
+     "name": "id",
+     "quote": null,
+     "tags": []
+    }
+   },
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.363609,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "source.demo.raw.orders"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "Orders, one row each",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "stg_orders"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "stg_orders",
+   "original_file_path": "models/stg_orders.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "stg_orders.sql",
+   "primary_key": [
+    "id"
+   ],
+   "raw_code": "{{ config(materialized='view') }}\nselect id, customer_id, amount from {{ source('raw', 'orders') }}",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"stg_orders\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [
+    [
+     "raw",
+     "orders"
+    ]
+   ],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.stg_orders",
+   "unrendered_config": {
+    "materialized": "view"
+   },
+   "version": null
+  },
+  "model.demo.uses_pkg": {
+   "access": "protected",
+   "alias": "uses_pkg",
+   "build_path": null,
+   "checksum": {
+    "checksum": "391326e8a3df14f2eeb212c48ab9dd61f033014dc72cd4bb3042757a4c433d02",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.340312,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "model.pkg_a.pkg_only"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "uses_pkg"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "uses_pkg",
+   "original_file_path": "models/uses_pkg.sql",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "uses_pkg.sql",
+   "primary_key": [],
+   "raw_code": "select * from {{ ref('pkg_a', 'pkg_only') }}",
+   "refs": [
+    {
+     "name": "pkg_only",
+     "package": "pkg_a",
+     "version": null
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"uses_pkg\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.uses_pkg",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.uses_versioned": {
+   "access": "protected",
+   "alias": "uses_versioned",
+   "build_path": null,
+   "checksum": {
+    "checksum": "fa186a2bcdadb3cec14776a7c79f3e0e816ca265e2883e4806dc716b17557b0d",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.339833,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "model.demo.versioned.v1"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "uses_versioned"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "uses_versioned",
+   "original_file_path": "models/uses_versioned.sql",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "uses_versioned.sql",
+   "primary_key": [],
+   "raw_code": "select * from {{ ref('versioned', v=1) }}",
+   "refs": [
+    {
+     "name": "versioned",
+     "package": null,
+     "version": 1
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"uses_versioned\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.uses_versioned",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.demo.versioned.v1": {
+   "access": "protected",
+   "alias": "versioned_v1",
+   "build_path": null,
+   "checksum": {
+    "checksum": "3ea0f972fa1b56aa2dc2f56ee784b6a5796312f9a813d59ae70fd8855f10d16d",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.3654342,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": []
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "versioned",
+    "v1"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": 2,
+   "meta": {},
+   "metrics": [],
+   "name": "versioned",
+   "original_file_path": "models/versioned_v1.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "versioned_v1.sql",
+   "primary_key": [],
+   "raw_code": "select 1 as id",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"versioned_v1\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.versioned.v1",
+   "unrendered_config": {},
+   "version": 1
+  },
+  "model.demo.versioned.v2": {
+   "access": "protected",
+   "alias": "versioned_v2",
+   "build_path": null,
+   "checksum": {
+    "checksum": "70d036a1a2a0e4e2fb227561af54159f9c85ebb6f584aa11e70de92d75056242",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.3657951,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": []
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "demo",
+    "versioned",
+    "v2"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": 2,
+   "meta": {},
+   "metrics": [],
+   "name": "versioned",
+   "original_file_path": "models/versioned_v2.sql",
+   "package_name": "demo",
+   "patch_path": "demo://models/schema.yml",
+   "path": "versioned_v2.sql",
+   "primary_key": [],
+   "raw_code": "select 1 as id, 2 as extra",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"versioned_v2\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.demo.versioned.v2",
+   "unrendered_config": {},
+   "version": 2
+  },
+  "model.pkg_a.pkg_only": {
+   "access": "protected",
+   "alias": "pkg_only",
+   "build_path": null,
+   "checksum": {
+    "checksum": "b57bb3f5b76f043fbe8485cd7a6b3239ec6510c76aed727f0fbeed2d5321d4f8",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": null,
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.345547,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": [
+     "model.demo.shared"
+    ]
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "pkg_a",
+    "pkg_only"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "pkg_only",
+   "original_file_path": "models/pkg_only.sql",
+   "package_name": "pkg_a",
+   "patch_path": null,
+   "path": "pkg_only.sql",
+   "primary_key": [],
+   "raw_code": "select * from {{ ref('shared') }}",
+   "refs": [
+    {
+     "name": "shared",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": "\"memory\".\"main\".\"pkg_only\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.pkg_a.pkg_only",
+   "unrendered_config": {},
+   "version": null
+  },
+  "model.pkg_a.shared": {
+   "access": "protected",
+   "alias": "shared_pkg",
+   "build_path": null,
+   "checksum": {
+    "checksum": "bbe545b0b4fb178707927f2810aae61d7d61b4e4a1f75b3b0049865b72161c62",
+    "name": "sha256"
+   },
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "access": "protected",
+    "alias": "shared_pkg",
+    "batch_size": null,
+    "begin": null,
+    "column_types": {},
+    "concurrent_batches": null,
+    "contract": {
+     "alias_types": true,
+     "enforced": false
+    },
+    "database": null,
+    "docs": {
+     "node_color": null,
+     "show": true
+    },
+    "enabled": true,
+    "event_time": null,
+    "freshness": null,
+    "full_refresh": null,
+    "grants": {},
+    "group": null,
+    "incremental_strategy": null,
+    "lookback": 1,
+    "materialized": "view",
+    "meta": {},
+    "on_configuration_change": "apply",
+    "on_schema_change": "ignore",
+    "packages": [],
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "schema": null,
+    "tags": [],
+    "unique_key": null
+   },
+   "constraints": [],
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032236.582106,
+   "database": "memory",
+   "depends_on": {
+    "macros": [],
+    "nodes": []
+   },
+   "deprecation_date": null,
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "fqn": [
+    "pkg_a",
+    "shared"
+   ],
+   "group": null,
+   "language": "sql",
+   "latest_version": null,
+   "meta": {},
+   "metrics": [],
+   "name": "shared",
+   "original_file_path": "models/shared.sql",
+   "package_name": "pkg_a",
+   "patch_path": null,
+   "path": "shared.sql",
+   "primary_key": [],
+   "raw_code": "{{ config(alias='shared_pkg') }}\nselect 1 as id, 'pkg' as origin",
+   "refs": [],
+   "relation_name": "\"memory\".\"main\".\"shared_pkg\"",
+   "resource_type": "model",
+   "schema": "main",
+   "sources": [],
+   "tags": [],
+   "time_spine": null,
+   "unique_id": "model.pkg_a.shared",
+   "unrendered_config": {
+    "alias": "shared_pkg"
+   },
+   "version": null
+  },
+  "test.demo.not_null_stg_orders_id.8cf5724805": {
+   "alias": "not_null_stg_orders_id",
+   "attached_node": "model.demo.stg_orders",
+   "build_path": null,
+   "checksum": {
+    "checksum": "",
+    "name": "none"
+   },
+   "column_name": "id",
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "alias": null,
+    "database": null,
+    "enabled": true,
+    "error_if": "!= 0",
+    "fail_calc": "count(*)",
+    "group": null,
+    "limit": null,
+    "materialized": "test",
+    "meta": {},
+    "schema": "dbt_test__audit",
+    "severity": "ERROR",
+    "store_failures": null,
+    "store_failures_as": null,
+    "tags": [],
+    "warn_if": "!= 0",
+    "where": null
+   },
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.3919418,
+   "database": "memory",
+   "depends_on": {
+    "macros": [
+     "macro.dbt.test_not_null"
+    ],
+    "nodes": [
+     "model.demo.stg_orders"
+    ]
+   },
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "file_key_name": "models.stg_orders",
+   "fqn": [
+    "demo",
+    "not_null_stg_orders_id"
+   ],
+   "group": null,
+   "language": "sql",
+   "meta": {},
+   "metrics": [],
+   "name": "not_null_stg_orders_id",
+   "original_file_path": "models/schema.yml",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "not_null_stg_orders_id.sql",
+   "raw_code": "{{ test_not_null(**_dbt_generic_test_kwargs) }}",
+   "refs": [
+    {
+     "name": "stg_orders",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": null,
+   "resource_type": "test",
+   "schema": "main_dbt_test__audit",
+   "sources": [],
+   "tags": [],
+   "test_metadata": {
+    "kwargs": {
+     "column_name": "id",
+     "model": "{{ get_where_subquery(ref('stg_orders')) }}"
+    },
+    "name": "not_null",
+    "namespace": null
+   },
+   "unique_id": "test.demo.not_null_stg_orders_id.8cf5724805",
+   "unrendered_config": {}
+  },
+  "test.demo.unique_stg_orders_id.beb6e97f2f": {
+   "alias": "unique_stg_orders_id",
+   "attached_node": "model.demo.stg_orders",
+   "build_path": null,
+   "checksum": {
+    "checksum": "",
+    "name": "none"
+   },
+   "column_name": "id",
+   "columns": {},
+   "compiled_path": null,
+   "config": {
+    "alias": null,
+    "database": null,
+    "enabled": true,
+    "error_if": "!= 0",
+    "fail_calc": "count(*)",
+    "group": null,
+    "limit": null,
+    "materialized": "test",
+    "meta": {},
+    "schema": "dbt_test__audit",
+    "severity": "ERROR",
+    "store_failures": null,
+    "store_failures_as": null,
+    "tags": [],
+    "warn_if": "!= 0",
+    "where": null
+   },
+   "contract": {
+    "alias_types": true,
+    "checksum": null,
+    "enforced": false
+   },
+   "created_at": 1793032227.391423,
+   "database": "memory",
+   "depends_on": {
+    "macros": [
+     "macro.dbt.test_unique"
+    ],
+    "nodes": [
+     "model.demo.stg_orders"
+    ]
+   },
+   "description": "",
+   "doc_blocks": [],
+   "docs": {
+    "node_color": null,
+    "show": true
+   },
+   "file_key_name": "models.stg_orders",
+   "fqn": [
+    "demo",
+    "unique_stg_orders_id"
+   ],
+   "group": null,
+   "language": "sql",
+   "meta": {},
+   "metrics": [],
+   "name": "unique_stg_orders_id",
+   "original_file_path": "models/schema.yml",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "unique_stg_orders_id.sql",
+   "raw_code": "{{ test_unique(**_dbt_generic_test_kwargs) }}",
+   "refs": [
+    {
+     "name": "stg_orders",
+     "package": null,
+     "version": null
+    }
+   ],
+   "relation_name": null,
+   "resource_type": "test",
+   "schema": "main_dbt_test__audit",
+   "sources": [],
+   "tags": [],
+   "test_metadata": {
+    "kwargs": {
+     "column_name": "id",
+     "model": "{{ get_where_subquery(ref('stg_orders')) }}"
+    },
+    "name": "unique",
+    "namespace": null
+   },
+   "unique_id": "test.demo.unique_stg_orders_id.beb6e97f2f",
+   "unrendered_config": {}
+  }
+ },
+ "parent_map": {
+  "model.demo.dim_customers": [
+   "model.demo.stg_customers"
+  ],
+  "model.demo.fct_orders": [
+   "model.demo.stg_customers",
+   "model.demo.stg_orders"
+  ],
+  "model.demo.report_daily": [
+   "model.demo.dim_customers",
+   "model.demo.fct_orders"
+  ],
+  "model.demo.shared": [],
+  "model.demo.stg_customers": [
+   "source.demo.raw.customers"
+  ],
+  "model.demo.stg_orders": [
+   "source.demo.raw.orders"
+  ],
+  "model.demo.uses_pkg": [
+   "model.pkg_a.pkg_only"
+  ],
+  "model.demo.uses_versioned": [
+   "model.demo.versioned.v1"
+  ],
+  "model.demo.versioned.v1": [],
+  "model.demo.versioned.v2": [],
+  "model.pkg_a.pkg_only": [
+   "model.demo.shared"
+  ],
+  "model.pkg_a.shared": [],
+  "source.demo.raw.customers": [],
+  "source.demo.raw.orders": [],
+  "test.demo.not_null_stg_orders_id.8cf5724805": [
+   "model.demo.stg_orders"
+  ],
+  "test.demo.unique_stg_orders_id.beb6e97f2f": [
+   "model.demo.stg_orders"
+  ]
+ },
+ "saved_queries": {},
+ "selectors": {},
+ "semantic_models": {},
+ "sources": {
+  "source.demo.raw.customers": {
+   "columns": {},
+   "config": {
+    "enabled": true,
+    "event_time": null,
+    "freshness": {
+     "error_after": {
+      "count": null,
+      "period": null
+     },
+     "filter": null,
+     "warn_after": {
+      "count": null,
+      "period": null
+     }
+    },
+    "loaded_at_field": null,
+    "loaded_at_query": null,
+    "meta": {},
+    "tags": []
+   },
+   "created_at": 1793032227.417191,
+   "database": "memory",
+   "description": "",
+   "doc_blocks": [],
+   "external": null,
+   "fqn": [
+    "demo",
+    "raw",
+    "customers"
+   ],
+   "freshness": {
+    "error_after": {
+     "count": null,
+     "period": null
+    },
+    "filter": null,
+    "warn_after": {
+     "count": null,
+     "period": null
+    }
+   },
+   "identifier": "customers",
+   "loaded_at_field": null,
+   "loaded_at_query": null,
+   "loader": "",
+   "meta": {},
+   "name": "customers",
+   "original_file_path": "models/sources.yml",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "models/sources.yml",
+   "quoting": {
+    "column": null,
+    "database": null,
+    "identifier": null,
+    "schema": null
+   },
+   "relation_name": "\"memory\".\"raw\".\"customers\"",
+   "resource_type": "source",
+   "schema": "raw",
+   "source_description": "",
+   "source_meta": {},
+   "source_name": "raw",
+   "tags": [],
+   "unique_id": "source.demo.raw.customers",
+   "unrendered_config": {
+    "loaded_at_field": null,
+    "loaded_at_query": null,
+    "meta": {},
+    "tags": []
+   },
+   "unrendered_database": null,
+   "unrendered_schema": null
+  },
+  "source.demo.raw.orders": {
+   "columns": {},
+   "config": {
+    "enabled": true,
+    "event_time": null,
+    "freshness": {
+     "error_after": {
+      "count": null,
+      "period": null
+     },
+     "filter": null,
+     "warn_after": {
+      "count": null,
+      "period": null
+     }
+    },
+    "loaded_at_field": null,
+    "loaded_at_query": null,
+    "meta": {},
+    "tags": []
+   },
+   "created_at": 1793032227.416706,
+   "database": "memory",
+   "description": "",
+   "doc_blocks": [],
+   "external": null,
+   "fqn": [
+    "demo",
+    "raw",
+    "orders"
+   ],
+   "freshness": {
+    "error_after": {
+     "count": null,
+     "period": null
+    },
+    "filter": null,
+    "warn_after": {
+     "count": null,
+     "period": null
+    }
+   },
+   "identifier": "orders",
+   "loaded_at_field": null,
+   "loaded_at_query": null,
+   "loader": "",
+   "meta": {},
+   "name": "orders",
+   "original_file_path": "models/sources.yml",
+   "package_name": "demo",
+   "patch_path": null,
+   "path": "models/sources.yml",
+   "quoting": {
+    "column": null,
+    "database": null,
+    "identifier": null,
+    "schema": null
+   },
+   "relation_name": "\"memory\".\"raw\".\"orders\"",
+   "resource_type": "source",
+   "schema": "raw",
+   "source_description": "",
+   "source_meta": {},
+   "source_name": "raw",
+   "tags": [],
+   "unique_id": "source.demo.raw.orders",
+   "unrendered_config": {
+    "loaded_at_field": null,
+    "loaded_at_query": null,
+    "meta": {},
+    "tags": []
+   },
+   "unrendered_database": null,
+   "unrendered_schema": null
+  }
+ },
+ "unit_tests": {}
+}

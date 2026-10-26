@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Orders, one row each
+    columns:
+      - name: id
+        data_tests: [unique, not_null]
+  - name: fct_orders
+    description: Order facts
+  - name: dim_customers
+    description: Customers
+  - name: report_daily
+    description: Daily report
+  - name: versioned
+    latest_version: 2
+    versions:
+      - v: 1
+      - v: 2

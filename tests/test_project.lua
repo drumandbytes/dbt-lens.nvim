@@ -36,7 +36,7 @@ T['get']['finds the project from a file inside it'] = function()
   local p = project.get()
   eq(p.root, vim.uv.fs_realpath(root))
   eq(p.name, 'demo')
-  eq(p.target_path, p.root .. '/build')
+  eq(p.target_path, p.root .. '/target')
   eq(p.model_paths, { 'models', 'more_models' })
 end
 

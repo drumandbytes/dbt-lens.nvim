@@ -2,4 +2,3 @@ name: 'demo'
 version: '1.0'
 profile: demo
 model-paths: ["models", 'more_models']
-target-path: "build"
