@@ -7,6 +7,8 @@ M.defaults = {
   build = '<leader>db',
   models = '<leader>dm',
   lineage = '<leader>dl',
+  compiled = '<leader>dc',
+  show = '<leader>ds',
   ['goto'] = 'gd',
 }
 

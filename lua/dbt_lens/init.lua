@@ -1,6 +1,6 @@
 local M = {}
 
----@type table<string, fun(args: string[])>
+---@type table<string, fun(args: string[], cmd: table?)>
 local subcommands = {}
 
 local function age(secs)
@@ -245,16 +245,41 @@ function subcommands.lineage(args)
   pick_model(idx, 'Lineage of', show)
 end
 
-local planned = { 'compiled', 'show' }
+function subcommands.compiled(_, cmd)
+  local project, idx = load_project()
+  if not (project and idx) then return end
+  local function open(node) require('dbt_lens.compiled').open(project, node, cmd and cmd.bang) end
+  local node = current_node(project, idx)
+  if node then return open(node) end
+  pick_model(idx, 'Compiled SQL of', open)
+end
+
+function subcommands.show(args, cmd)
+  local project, idx = load_project()
+  if not project then return end
+  local compiled = require 'dbt_lens.compiled'
+  if cmd and cmd.range and cmd.range > 0 then
+    local sql = table.concat(vim.api.nvim_buf_get_lines(0, cmd.line1 - 1, cmd.line2, false), '\n')
+    return compiled.show(project, { sql = sql, title = 'dbt show (selection)' })
+  end
+  local function show(node)
+    compiled.show(project, { selector = table.concat(node.fqn, '.'), title = 'dbt show ' .. node.name })
+  end
+  if args[1] and idx then
+    local node = require('dbt_lens.manifest').resolve_ref(idx, args[1])
+    if not node then return vim.notify("dbt-lens: no model '" .. args[1] .. "'", vim.log.levels.WARN) end
+    return show(node)
+  end
+  local node = idx and current_node(project, idx)
+  if node then return show(node) end
+  if idx then pick_model(idx, 'dbt show', show) end
+end
 
 function M.command(opts)
   local sub = opts.fargs[1]
   if not sub then return subcommands.status({}) end
   local fn = subcommands[sub]
-  if fn then return fn(vim.list_slice(opts.fargs, 2)) end
-  if vim.list_contains(planned, sub) then
-    return vim.notify('dbt-lens: `' .. sub .. '` is not implemented yet', vim.log.levels.WARN)
-  end
+  if fn then return fn(vim.list_slice(opts.fargs, 2), opts) end
   vim.notify('dbt-lens: unknown subcommand `' .. sub .. '`', vim.log.levels.ERROR)
 end
 
@@ -266,7 +291,6 @@ function M.complete(arglead, cmdline)
     return {}
   end
   local names = vim.tbl_keys(subcommands)
-  vim.list_extend(names, planned)
   table.sort(names)
   return vim.tbl_filter(function(n) return vim.startswith(n, arglead) end, names)
 end

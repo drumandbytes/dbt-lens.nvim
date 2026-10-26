@@ -6,6 +6,7 @@ local M = {}
 ---@field keymaps? boolean|table<string, string|false>
 ---@field manifest? { warn_mb?: integer }
 ---@field log? { height?: integer }
+---@field show? { limit?: integer }
 ---@field lineage? { up?: integer, down?: integer, width?: integer, follow?: boolean }
 
 ---@type dbt_lens.Config
@@ -15,6 +16,7 @@ M.defaults = {
   keymaps = false,
   manifest = { warn_mb = 100 },
   log = { height = 15 },
+  show = { limit = 20 },
   lineage = { up = 2, down = 2, width = 48, follow = false },
 }
 
@@ -47,6 +49,7 @@ function M.get()
   vim.validate('keymaps', cfg.keymaps, { 'boolean', 'table' })
   vim.validate('manifest.warn_mb', cfg.manifest.warn_mb, 'number')
   vim.validate('log.height', cfg.log.height, 'number')
+  vim.validate('show.limit', cfg.show.limit, 'number')
   vim.validate('lineage.up', cfg.lineage.up, 'number')
   vim.validate('lineage.down', cfg.lineage.down, 'number')
   vim.validate('lineage.width', cfg.lineage.width, 'number')
