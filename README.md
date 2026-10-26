@@ -16,6 +16,12 @@ files, the macros) comes from `target/manifest.json`, not from regexes over your
 | **Pickers** | `vim.ui.select` by default; snacks.nvim and telescope.nvim pickers (with file previews) when installed. |
 | **Health** | `:checkhealth dbt_lens`: dbt, project, profile, manifest, optional dependencies. |
 
+## Status
+
+Built and tested against dbt-core 1.10 with dbt-duckdb (unit and integration tests, CI). Not yet used on a
+real project or with dbt-starrocks, and the snacks picker and blink.cmp source are only tested against their
+documented APIs. Expect rough edges and please report them; `CLAUDE.md` lists exactly what is unverified.
+
 ## Requirements
 
 - Neovim **0.11+**
