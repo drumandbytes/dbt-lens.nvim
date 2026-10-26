@@ -6,7 +6,7 @@ User docs: `README.md`, `doc/dbt-lens.txt`. This file is for whoever (human or C
 
 ## Status: what is and is not verified
 
-Verified: 80-ish unit tests and an integration test (`make test-integration`) against dbt-core 1.10 +
+Verified: 79 unit tests and an integration test (`make test-integration`) against dbt-core 1.10 +
 dbt-duckdb; CI green (stylua, luacheck, unit tests on Neovim 0.11.7 and stable, integration); the Telescope
 picker live.
 
