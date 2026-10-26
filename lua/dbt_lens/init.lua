@@ -231,7 +231,21 @@ function subcommands.yaml()
   nav.open({ file = file, line = nav.find_entry_line(vim.fn.readfile(file), node.name) or 1, label = node.name })
 end
 
-local planned = { 'lineage', 'compiled', 'show' }
+function subcommands.lineage(args)
+  local project, idx = load_project()
+  if not (project and idx) then return end
+  local function show(node) require('dbt_lens.lineage').open(project, idx, node) end
+  if args[1] then
+    local node = require('dbt_lens.manifest').resolve_ref(idx, args[1])
+    if not node then return vim.notify("dbt-lens: no model '" .. args[1] .. "'", vim.log.levels.WARN) end
+    return show(node)
+  end
+  local node = current_node(project, idx)
+  if node then return show(node) end
+  pick_model(idx, 'Lineage of', show)
+end
+
+local planned = { 'compiled', 'show' }
 
 function M.command(opts)
   local sub = opts.fargs[1]

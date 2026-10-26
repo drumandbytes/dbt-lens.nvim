@@ -6,6 +6,7 @@ M.defaults = {
   test = '<leader>dt',
   build = '<leader>db',
   models = '<leader>dm',
+  lineage = '<leader>dl',
   ['goto'] = 'gd',
 }
 
