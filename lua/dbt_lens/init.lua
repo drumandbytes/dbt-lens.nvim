@@ -90,13 +90,15 @@ local function sorted_models(idx)
   return list
 end
 
+---@param project dbt_lens.Project
 ---@param idx dbt_lens.Index
 ---@param prompt string
 ---@param on_choice fun(node: dbt_lens.Node)
-local function pick_model(idx, prompt, on_choice)
+local function pick_model(project, idx, prompt, on_choice)
   require('dbt_lens.pick').pick(sorted_models(idx), {
     prompt = prompt,
     format = function(n) return table.concat(n.fqn, '.') .. (n.materialized and ('  (' .. n.materialized .. ')') or '') end,
+    file = function(n) return require('dbt_lens.project').abs_path(project, n.package, n.path) end,
   }, function(node)
     if node then on_choice(node) end
   end)
@@ -115,7 +117,7 @@ local function dbt_job(sub)
     if selector == '' then
       if node then return runner.run(project, sub, table.concat(node.fqn, '.')) end
       -- not in a model file: choose one
-      return pick_model(idx, 'dbt ' .. sub, function(n) runner.run(project, sub, table.concat(n.fqn, '.')) end)
+      return pick_model(project, idx, 'dbt ' .. sub, function(n) runner.run(project, sub, table.concat(n.fqn, '.')) end)
     end
     local expanded = runner.expand_selector(selector, node)
     if not expanded then
@@ -242,7 +244,7 @@ function subcommands.lineage(args)
   end
   local node = current_node(project, idx)
   if node then return show(node) end
-  pick_model(idx, 'Lineage of', show)
+  pick_model(project, idx, 'Lineage of', show)
 end
 
 function subcommands.compiled(_, cmd)
@@ -251,7 +253,7 @@ function subcommands.compiled(_, cmd)
   local function open(node) require('dbt_lens.compiled').open(project, node, cmd and cmd.bang) end
   local node = current_node(project, idx)
   if node then return open(node) end
-  pick_model(idx, 'Compiled SQL of', open)
+  pick_model(project, idx, 'Compiled SQL of', open)
 end
 
 function subcommands.show(args, cmd)
@@ -272,7 +274,7 @@ function subcommands.show(args, cmd)
   end
   local node = idx and current_node(project, idx)
   if node then return show(node) end
-  if idx then pick_model(idx, 'dbt show', show) end
+  if idx then pick_model(project, idx, 'dbt show', show) end
 end
 
 function M.command(opts)

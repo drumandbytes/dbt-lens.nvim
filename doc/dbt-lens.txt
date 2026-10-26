@@ -1,0 +1,165 @@
+*dbt-lens.txt*  dbt Core from Neovim: run, navigate, lineage, compiled SQL
+
+==============================================================================
+CONTENTS                                                        *dbt-lens-contents*
+
+  1. Introduction ......................... |dbt-lens|
+  2. Requirements ......................... |dbt-lens-requirements|
+  3. Configuration ........................ |dbt-lens-config|
+  4. Commands ............................. |dbt-lens-commands|
+  5. Selectors ............................ |dbt-lens-selectors|
+  6. Keymaps .............................. |dbt-lens-keymaps|
+  7. Lineage view ......................... |dbt-lens-lineage|
+  8. Completion (blink.cmp) ............... |dbt-lens-blink|
+  9. Pickers .............................. |dbt-lens-pickers|
+ 10. Health ............................... |dbt-lens-health|
+
+==============================================================================
+1. INTRODUCTION                                                          *dbt-lens*
+
+dbt-lens reads `target/manifest.json` and runs the dbt CLI. Models, sources,
+macros and the graph come from the manifest, so refs inside `{% set %}`,
+branches and macros, package refs and versioned refs resolve the way dbt
+resolves them. The manifest is cached on its modification time; it is
+refreshed by |:DbtLens| refresh (or by any run, build or compile).
+
+==============================================================================
+2. REQUIREMENTS                                                *dbt-lens-requirements*
+
+  - Neovim 0.11 or newer
+  - dbt Core 1.9 or newer (manifest schema v12)
+  - a working dbt project and profile
+
+dbt is found in this order: `vim.g.dbt_lens.cmd`, `<root>/.venv/bin/dbt`,
+`uv run dbt` (when `<root>/uv.lock` exists), `dbt` on $PATH.
+
+==============================================================================
+3. CONFIGURATION                                                   *dbt-lens-config*
+
+No `setup()` is needed. Set `vim.g.dbt_lens` (a table or a function returning
+one) before the plugin is used: >lua
+
+    vim.g.dbt_lens = {
+      cmd = nil,
+      picker = 'auto',
+      keymaps = false,
+      log = { height = 15 },
+      show = { limit = 20 },
+      lineage = { up = 2, down = 2, width = 48, follow = false },
+      manifest = { warn_mb = 100 },
+    }
+<
+  cmd           string|string[]  dbt executable override.
+  picker        'auto'|'ui'|'snacks'|'telescope'. `auto` takes snacks, then
+                telescope, then |vim.ui.select()|.
+  keymaps       boolean|table. `true` enables |dbt-lens-keymaps|; a table
+                overrides single keys (`false` disables one).
+  log.height    height of the dbt output split.
+  show.limit    rows printed by `:DbtLens show`.
+  lineage.up/down   default depth of the lineage view.
+  lineage.width     sidebar width.
+  lineage.follow    re-root the view when entering another model file.
+  manifest.warn_mb  warn when manifest.json is larger than this.
+
+Unknown keys are reported by |dbt-lens-health|, not thrown.
+
+==============================================================================
+4. COMMANDS                                                     *dbt-lens-commands*
+
+                                                                      *:DbtLens*
+:DbtLens {subcommand} [args]
+    One command, completion included. Without a subcommand: `status`.
+
+    status                 project, dbt command, manifest age and counts.
+    refresh                run `dbt parse`, reload the manifest.
+    run|test|build [sel]   run dbt on the current model, or on {sel}
+                           (see |dbt-lens-selectors|). Output streams into a
+                           split; failures go to the quickfix list.
+    cancel                 stop the running dbt job.
+    goto [split|vsplit|tab]
+                           definition of the ref(), source() or macro under
+                           the cursor.
+    references             models that depend on the current model (quickfix).
+    yaml                   the model's entry in its schema YAML.
+    lineage [model]        |dbt-lens-lineage|.
+    compiled               compiled SQL of the current model, read-only.
+                           With `!` it recompiles even when the file looks
+                           fresh.
+    show [model]           `dbt show` in a float. With a visual range the
+                           selected SQL runs inline.
+    models                 pick a model and open it.
+
+When the current buffer is not a model file, `run`, `compiled`, `show` and
+`lineage` ask which model you mean.
+
+`<Plug>(dbt-lens-{subcommand})` mappings exist for run, test, build, models,
+refresh, status, cancel, goto, references, yaml, lineage, compiled and show.
+
+==============================================================================
+5. SELECTORS                                                   *dbt-lens-selectors*
+
+dbt selectors: `name`, `+name`, `name+`, `+name+`, `1+name`, `tag:x`, ...
+`%` stands for the current model: `:DbtLens build +%`. Models are addressed by
+their full name (`demo.staging.stg_orders`, `demo.versioned.v2`), which is
+unambiguous across packages and model versions.
+
+==============================================================================
+6. KEYMAPS                                                       *dbt-lens-keymaps*
+
+Off by default. With `keymaps = true` these are set buffer-locally in SQL and
+Jinja files inside a dbt project:
+
+    gd           goto; falls back to |vim.lsp.buf.definition()| when the
+                 cursor is not on a dbt reference
+    <leader>dr   run            <leader>dt   test
+    <leader>db   build          <leader>dl   lineage
+    <leader>dc   compiled       <leader>ds   show
+    <leader>dm   models
+
+==============================================================================
+7. LINEAGE VIEW                                                  *dbt-lens-lineage*
+
+A sidebar with upstream above the model and downstream below. Indentation
+under a node lists its own parents (upstream) or children (downstream).
+`↺` marks a node already listed, `…` a node with more beyond the depth limit.
+
+    <CR>   open the file (sources open their YAML)
+    r      re-root on the node under the cursor
+    + -    deeper / shallower
+    R      `dbt parse`, then reload
+    y      yank `+model+` as a selector
+    q      close
+
+==============================================================================
+8. COMPLETION (BLINK.CMP)                                           *dbt-lens-blink*
+
+Register the source: >lua
+
+    sources = {
+      per_filetype = { sql = { 'lsp', 'dbt_lens', 'snippets', 'buffer' } },
+      providers = { dbt_lens = { name = 'dbt', module = 'dbt_lens.blink' } },
+    }
+<
+Completes models in `ref('`, models of a package in `ref('pkg', '`, sources
+in `source('` and their tables in `source('s', '`, and macro names inside an
+open `{{ }}` or `{% %}` block.
+
+==============================================================================
+9. PICKERS                                                       *dbt-lens-pickers*
+
+|vim.ui.select()| by default; snacks.nvim and telescope.nvim pickers with file
+previews when installed (see `picker` in |dbt-lens-config|). For telescope:
+>vim
+    :lua require('telescope').load_extension('dbt_lens')
+    :Telescope dbt_lens models
+<
+==============================================================================
+10. HEALTH                                                        *dbt-lens-health*
+
+>vim
+    :checkhealth dbt_lens
+<
+Checks Neovim, dbt and its version, the project, the profile dbt will use, the
+manifest (age), unknown configuration keys and optional dependencies.
+
+ vim:tw=78:ts=8:ft=help:norl:

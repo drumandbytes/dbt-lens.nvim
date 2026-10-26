@@ -1,7 +1,20 @@
 local M = {}
 
-function M.check()
-  local h = vim.health
+local function optional(h)
+  h.start 'dbt-lens: optional'
+  local function check(label, ok, hint)
+    if ok then
+      h.ok(label)
+    else
+      h.info(label .. ' not found: ' .. hint)
+    end
+  end
+  check('blink.cmp', pcall(require, 'blink.cmp'), 'needed for ref()/source() completion')
+  check('telescope.nvim', pcall(require, 'telescope.pickers'), 'picker = "telescope"')
+  check('snacks.nvim picker', _G.Snacks ~= nil and Snacks.picker ~= nil, 'picker = "snacks"')
+end
+
+local function core(h)
   h.start 'dbt-lens'
 
   if vim.fn.has 'nvim-0.11' == 1 then
@@ -19,6 +32,30 @@ function M.check()
     return
   end
   h.ok(('Project %s at %s'):format(project.name or '?', project.root))
+
+  -- the profile dbt will use
+  local found
+  -- (a nil inside a table literal would end ipairs early, hence the filter)
+  local dirs = vim.tbl_filter(
+    function(d) return d ~= nil and d ~= '' end,
+    { vim.env.DBT_PROFILES_DIR, project.root, vim.fn.expand '~/.dbt' }
+  )
+  for _, d in ipairs(dirs) do
+    if vim.uv.fs_stat(d .. '/profiles.yml') then
+      found = d .. '/profiles.yml'
+      break
+    end
+  end
+  if not found then
+    h.warn 'No profiles.yml (DBT_PROFILES_DIR, the project dir or ~/.dbt): dbt parse will fail'
+  elseif
+    project.profile
+    and not ('\n' .. table.concat(vim.fn.readfile(found), '\n')):find('\n' .. vim.pesc(project.profile) .. ':')
+  then
+    h.warn(('profile `%s` not found in %s'):format(project.profile, found))
+  else
+    h.ok(('profile %s in %s'):format(project.profile or '?', found))
+  end
 
   if not project.cmd then
     h.error 'dbt not found (.venv/bin/dbt, uv run dbt, $PATH, or vim.g.dbt_lens.cmd)'
@@ -45,6 +82,11 @@ function M.check()
   else
     h.info('No manifest.json yet at ' .. manifest .. ' (run `dbt parse`)')
   end
+end
+
+function M.check()
+  core(vim.health)
+  optional(vim.health)
 end
 
 return M

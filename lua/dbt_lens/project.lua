@@ -3,6 +3,7 @@ local M = {}
 ---@class dbt_lens.Project
 ---@field root string absolute project root
 ---@field name string? from dbt_project.yml
+---@field profile string? the `profile:` key of dbt_project.yml
 ---@field target_path string absolute path of the dbt target dir
 ---@field packages_path string packages install dir, relative to root
 ---@field model_paths string[] relative to root
@@ -10,7 +11,7 @@ local M = {}
 
 --- Flat scan of dbt_project.yml: top-level scalars and inline lists only, which is all we need.
 ---@param text string
----@return { name: string?, target_path: string?, model_paths: string[]?, packages_path: string? }
+---@return { name: string?, profile: string?, target_path: string?, model_paths: string[]?, packages_path: string? }
 function M.parse_project_yml(text)
   local out = {}
   for line in text:gmatch '[^\r\n]+' do
@@ -19,6 +20,8 @@ function M.parse_project_yml(text)
       value = value:gsub('%s+#.*$', '')
       if key == 'name' then
         out.name = value:match '^[\'"]?([^\'"]+)[\'"]?$'
+      elseif key == 'profile' then
+        out.profile = value:match '^[\'"]?([^\'"]+)[\'"]?$'
       elseif key == 'target-path' then
         out.target_path = value:match '^[\'"]?([^\'"]+)[\'"]?$'
       elseif key == 'packages-install-path' then
@@ -75,6 +78,7 @@ function M.get(buf)
   return {
     root = root,
     name = parsed.name,
+    profile = parsed.profile,
     target_path = target,
     packages_path = parsed.packages_path or 'dbt_packages',
     model_paths = parsed.model_paths or { 'models' },
