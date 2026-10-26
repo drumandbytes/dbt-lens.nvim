@@ -5,3 +5,4 @@ if not vim.uv.fs_stat(mini) then
 end
 vim.opt.rtp:prepend(mini)
 require('mini.test').setup()
+vim.cmd 'runtime plugin/dbt-lens.lua' -- --noplugin skips it

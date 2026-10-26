@@ -7,7 +7,7 @@ vim.api.nvim_create_user_command('DbtLens', function(opts) require('dbt_lens').c
   desc = 'dbt-lens: run dbt, navigate, lineage',
 })
 
-for _, sub in ipairs({ 'run', 'test', 'build', 'models', 'refresh', 'status', 'cancel' }) do
+for _, sub in ipairs({ 'run', 'test', 'build', 'models', 'refresh', 'status', 'cancel', 'goto', 'references', 'yaml' }) do
   vim.keymap.set(
     'n',
     '<Plug>(dbt-lens-' .. sub .. ')',

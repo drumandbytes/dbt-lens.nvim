@@ -144,7 +144,94 @@ function subcommands.models()
   )
 end
 
-local planned = { 'goto', 'lineage', 'compiled', 'show' }
+---@param opts? { how?: string, quiet?: boolean }
+---@return boolean handled false when the cursor is not on something dbt-lens can resolve
+function M.goto_definition(opts)
+  opts = opts or {}
+  local nav = require 'dbt_lens.nav'
+  local project = require('dbt_lens.project').get()
+  if not project then return false end
+  local idx = require('dbt_lens.manifest').load(project)
+  if not idx then
+    if not opts.quiet then vim.notify('dbt-lens: no manifest (run :DbtLens refresh)', vim.log.levels.WARN) end
+    return false
+  end
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local construct = nav.at_cursor(vim.api.nvim_buf_get_lines(0, 0, -1, false), row, col)
+  if not construct then
+    if not opts.quiet then vim.notify('dbt-lens: no ref(), source() or macro under the cursor', vim.log.levels.INFO) end
+    return false
+  end
+  local target, extra = nav.resolve(construct, idx, project)
+  if target then
+    nav.open(target, opts.how)
+    return true
+  elseif type(extra) == 'table' then
+    pick_model(
+      idx,
+      "'" .. construct.name .. "' is ambiguous",
+      function(n)
+        nav.open(
+          { file = require('dbt_lens.project').abs_path(project, n.package, n.path), line = 1, label = n.name },
+          opts.how
+        )
+      end
+    )
+    return true
+  elseif type(extra) == 'string' then
+    vim.notify('dbt-lens: ' .. extra, vim.log.levels.WARN)
+    return true
+  end
+  return false -- a macro we do not know: Jinja builtin or local variable
+end
+
+subcommands['goto'] = function(args)
+  local how = args[1]
+  if how and not vim.list_contains({ 'edit', 'split', 'vsplit', 'tab' }, how) then
+    return vim.notify('dbt-lens: goto takes split, vsplit or tab', vim.log.levels.ERROR)
+  end
+  M.goto_definition({ how = how })
+end
+
+---@return dbt_lens.Project?, dbt_lens.Index?, dbt_lens.Node?
+local function project_and_node()
+  local project, idx = load_project()
+  if not (project and idx) then return end
+  local node = current_node(project, idx)
+  if not node then return vim.notify('dbt-lens: the current buffer is not a model file', vim.log.levels.WARN) end
+  return project, idx, node
+end
+
+function subcommands.references()
+  local project, idx, node = project_and_node()
+  if not node then return end
+  local items = {}
+  for _, uid in ipairs(idx.children[node.uid] or {}) do
+    local child = idx.nodes[uid]
+    if child then
+      items[#items + 1] = {
+        filename = require('dbt_lens.project').abs_path(project, child.package, child.path),
+        lnum = 1,
+        text = table.concat(child.fqn, '.'),
+      }
+    end
+  end
+  if #items == 0 then return vim.notify('dbt-lens: nothing depends on ' .. node.name, vim.log.levels.INFO) end
+  vim.fn.setqflist({}, ' ', { title = 'Models using ' .. node.name, items = items })
+  vim.cmd 'copen'
+end
+
+function subcommands.yaml()
+  local project, _, node = project_and_node()
+  if not node then return end
+  local pkg, rel = (node.patch_path or ''):match '^([^:]+)://(.+)$'
+  if not pkg then return vim.notify('dbt-lens: ' .. node.name .. ' has no YAML entry', vim.log.levels.INFO) end
+  local nav = require 'dbt_lens.nav'
+  local file = require('dbt_lens.project').abs_path(project, pkg, rel)
+  nav.open({ file = file, line = nav.find_entry_line(vim.fn.readfile(file), node.name) or 1, label = node.name })
+end
+
+local planned = { 'lineage', 'compiled', 'show' }
 
 function M.command(opts)
   local sub = opts.fargs[1]
