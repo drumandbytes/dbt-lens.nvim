@@ -3,7 +3,7 @@
 # Internal dbt/dbt_duckdb macros are dropped (hundreds of KB nobody tests); everything else is as dbt wrote it.
 set -euo pipefail
 cd "$(dirname "$0")/../tests/fixtures/project"
-DBT=(uvx --quiet --from 'dbt-core==1.10.*' --with 'dbt-duckdb==1.10.*' dbt)
+DBT=(uvx --quiet --python 3.12 --from 'dbt-core==1.10.*' --with 'dbt-duckdb==1.10.*' dbt)
 export DBT_PROFILES_DIR="$PWD"
 "${DBT[@]}" deps --no-use-colors
 "${DBT[@]}" parse --no-use-colors

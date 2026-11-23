@@ -81,6 +81,7 @@ fixtures and no editor state. Put new logic there and keep the UI modules thin.
   it and writes no manifest.
 - `target-path` in `dbt_project.yml` is deprecated in dbt 1.10 (still honoured; `DBT_TARGET_PATH` wins here too).
 - Two models with the same relation name across packages fail the parse: give one an `alias` (fixture does).
+- Always pass `--python 3.12` to uvx: dbt-core 1.10 breaks on Python 3.14 (mashumaro).
 - `uvx --from dbt-duckdb` pulls the **latest** dbt-core (1.12 at the time); pin `dbt-core==1.10.*` for anything
   reproducible. macOS tmp paths: use `/private/tmp`, not `/tmp`, wherever dbt matches files by path.
 

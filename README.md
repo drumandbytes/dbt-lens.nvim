@@ -1,8 +1,12 @@
 # dbt-lens.nvim
 
+[![CI](https://github.com/drumandbytes/dbt-lens.nvim/actions/workflows/ci.yml/badge.svg)](https://github.com/drumandbytes/dbt-lens.nvim/actions/workflows/ci.yml)
+
 Neovim plugin for **dbt Core 1.x**: run models, jump to `ref()` / `source()` / macros, browse lineage,
 read compiled SQL, preview rows and complete model names. Everything dbt already knows (the graph, the
 files, the macros) comes from `target/manifest.json`, not from regexes over your SQL.
+
+[More Drumandbytes projects](https://drumandbytes.com/projects/?ref=dbt-lens.nvim-readme)
 
 ## Features
 
@@ -18,9 +22,13 @@ files, the macros) comes from `target/manifest.json`, not from regexes over your
 
 ## Status
 
-Built and tested against dbt-core 1.10 with dbt-duckdb (unit and integration tests, CI). Not yet used on a
-real project or with dbt-starrocks, and the snacks picker and blink.cmp source are only tested against their
-documented APIs. Expect rough edges and please report them; `CLAUDE.md` lists exactly what is unverified.
+Early release. Built and tested against dbt-core 1.10 with dbt-duckdb (unit and integration tests, CI on Neovim
+0.11 and stable). Not yet used on a large real project or with adapters other than DuckDB, and the snacks picker
+and blink.cmp source are only tested against their documented APIs. Expect rough edges.
+
+Feedback from real projects is the most useful thing right now: which adapter, how big the manifest is, what
+broke. [Open an issue](https://github.com/drumandbytes/dbt-lens.nvim/issues/new/choose) with the output of
+`:checkhealth dbt_lens`. `CLAUDE.md` lists exactly what is unverified.
 
 ## Requirements
 
@@ -36,6 +44,17 @@ With the built-in `vim.pack`:
 
 ```lua
 vim.pack.add { 'https://github.com/drumandbytes/dbt-lens.nvim' }
+```
+
+With lazy.nvim:
+
+```lua
+{
+  'drumandbytes/dbt-lens.nvim',
+  ft = { 'sql', 'yaml' },
+  cmd = 'DbtLens',
+  init = function() vim.g.dbt_lens = { keymaps = true } end,
+}
 ```
 
 There is no `setup()` to call. Configure through `vim.g.dbt_lens` (a table, or a function returning one) before
@@ -146,12 +165,16 @@ start from the working directory.
   `profiles.yml` dbt will use.
 - **dbt not found**: it must be on `$PATH`, in `<root>/.venv/bin`, run through `uv run` (with a `uv.lock`), or
   set via `vim.g.dbt_lens.cmd = { 'uvx', '--from', 'dbt-core==1.10.*', ... , 'dbt' }`.
+  With `uvx`, add `'--python', '3.12'`: dbt-core 1.10 does not run on Python 3.14, which `uvx` picks by default.
 - **`dbt parse` fails on a `ref()` inside a SQL comment**: dbt evaluates Jinja in `-- comments` too. Use
   `{# #}` for commented-out refs.
 - **A macro "is not on disk"**: it lives in a package that is not installed (`dbt deps`).
 - **dbt-core below 1.9** is not supported.
 
-## Development
+## Contributing
+
+Issues and pull requests are welcome; commits follow [Conventional Commits](https://www.conventionalcommits.org/),
+and releases are cut by release-please. Run the checks locally:
 
 ```sh
 make test               # unit tests (mini.test, headless)
@@ -163,10 +186,6 @@ scripts/gen-fixture.sh  # regenerate tests/fixtures/manifest.json
 
 [dbtpal](https://github.com/PedramNavid/dbtpal), [dbt-forge.nvim](https://github.com/gbakes/dbt-forge),
 [dbt.nvim](https://github.com/EloiSanchez/dbt.nvim), [cmp-dbt](https://github.com/MattiasMTS/cmp-dbt).
-
-## More from Drumandbytes
-
-[Drumandbytes projects](https://drumandbytes.com/projects/?ref=dbt-lens.nvim-readme)
 
 ## License
 
