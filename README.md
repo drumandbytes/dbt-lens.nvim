@@ -29,9 +29,9 @@ files, the macros) comes from `target/manifest.json`, not from regexes over your
 
 ## Status
 
-Early release. Built and tested against dbt-core 1.10 with dbt-duckdb (unit and integration tests, CI on Neovim
-0.11 and stable). Not yet used on a large real project or with adapters other than DuckDB, and the snacks picker
-and blink.cmp source are only tested against their documented APIs. Expect rough edges.
+Early release, used by its author on real dbt projects. CI runs unit and integration tests against dbt-core 1.10
+with dbt-duckdb, on Neovim 0.11 and stable. Other adapters and dbt-core versions get less coverage, and the snacks
+picker and blink.cmp source are only tested against their documented APIs, so expect some rough edges.
 
 Feedback from real projects is the most useful thing right now: which adapter, how big the manifest is, what
 broke. [Open an issue](https://github.com/drumandbytes/dbt-lens.nvim/issues/new/choose) with the output of
