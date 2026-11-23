@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Neovim plugin for **dbt Core 1.x** (`drumandbytes/dbt-lens.nvim`, private): run dbt, go to ref/source/macro,
+Neovim plugin for **dbt Core 1.x** (`drumandbytes/dbt-lens.nvim`, public): run dbt, go to ref/source/macro,
 lineage tree, compiled SQL / `dbt show`, blink.cmp source. Lua, Neovim 0.11+, dbt-core 1.9+.
 User docs: `README.md`, `doc/dbt-lens.txt`. This file is for whoever (human or Claude) changes the code next.
 

@@ -1,0 +1,29 @@
+name: Bug report
+description: Something does not work as documented
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you saw.
+    validations:
+      required: true
+  - type: input
+    id: nvim
+    attributes:
+      label: Neovim version
+      placeholder: "NVIM v0.11.7"
+    validations:
+      required: true
+  - type: input
+    id: dbt
+    attributes:
+      label: dbt-core and adapter versions
+      placeholder: "dbt-core 1.10.4, dbt-starrocks 1.9"
+    validations:
+      required: true
+  - type: textarea
+    id: health
+    attributes:
+      label: ":checkhealth dbt_lens"
+      render: text

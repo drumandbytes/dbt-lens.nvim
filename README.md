@@ -164,6 +164,10 @@ scripts/gen-fixture.sh  # regenerate tests/fixtures/manifest.json
 [dbtpal](https://github.com/PedramNavid/dbtpal), [dbt-forge.nvim](https://github.com/gbakes/dbt-forge),
 [dbt.nvim](https://github.com/EloiSanchez/dbt.nvim), [cmp-dbt](https://github.com/MattiasMTS/cmp-dbt).
 
+## More from Drumandbytes
+
+[Drumandbytes projects](https://drumandbytes.com/projects/?ref=dbt-lens.nvim-readme)
+
 ## License
 
 MIT

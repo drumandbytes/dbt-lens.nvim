@@ -1,0 +1,10 @@
+name: Feature request
+description: Suggest something dbt-lens should do
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like to do
+      description: The task you are trying to get done, not just the feature.
+    validations:
+      required: true
