@@ -8,6 +8,13 @@ files, the macros) comes from `target/manifest.json`, not from regexes over your
 
 [More Drumandbytes projects](https://drumandbytes.com/projects/?ref=dbt-lens.nvim-readme)
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/lineage-dark.png">
+    <img src="docs/screenshots/lineage-light.png" alt="A dbt model open in Neovim with its upstream and downstream lineage in a sidebar" width="760">
+  </picture>
+</p>
+
 ## Features
 
 | | |
@@ -29,6 +36,24 @@ and blink.cmp source are only tested against their documented APIs. Expect rough
 Feedback from real projects is the most useful thing right now: which adapter, how big the manifest is, what
 broke. [Open an issue](https://github.com/drumandbytes/dbt-lens.nvim/issues/new/choose) with the output of
 `:checkhealth dbt_lens`. `CLAUDE.md` lists exactly what is unverified.
+
+### In action
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/build-dark.png">
+    <img src="docs/screenshots/build-light.png" alt="dbt build +model streaming into a split, with a summary line when it finishes" width="49%">
+  </picture>
+  &nbsp;
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/compiled-dark.png">
+    <img src="docs/screenshots/compiled-light.png" alt="The compiled SQL of a model open read-only beside the model source" width="49%">
+  </picture>
+</p>
+
+Left: `:DbtLens build +%` streams dbt's output and ends with a summary. Right: `:DbtLens compiled` beside the
+source. Both on the small demo project in `tests/fixtures/project` (DuckDB), shown in Catppuccin Mocha or Latte to
+match your GitHub theme.
 
 ## Requirements
 
