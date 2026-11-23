@@ -10,7 +10,9 @@ Verified: 79 unit tests and an integration test (`make test-integration`) agains
 dbt-duckdb; CI green (stylua, luacheck, unit tests on Neovim 0.11.7 and stable, integration); the Telescope
 picker live.
 
-**Not verified yet** (check these first when it is used on a real project):
+Used by the maintainer on real projects (exact adapters and sizes not recorded here).
+
+**Not covered by tests or CI** (check these first when something breaks on a real project):
 dbt-starrocks / any adapter other than duckdb; dbt-core 1.9 and 1.11 (CI does not pin them yet, only the
 `dbt show` output was compared on 1.9 and 1.10); the snacks picker and blink.cmp against the real plugins
 (only a fake `Snacks` and blink's documented source API are tested); big real manifests (decode was benchmarked on
