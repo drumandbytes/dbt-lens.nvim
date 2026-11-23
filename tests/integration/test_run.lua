@@ -3,7 +3,8 @@ local T = MiniTest.new_set()
 local eq = MiniTest.expect.equality
 
 local FIXTURES = vim.fn.getcwd() .. '/tests/fixtures'
-local DBT = { 'uvx', '--quiet', '--from', 'dbt-core==1.10.*', '--with', 'dbt-duckdb==1.10.*', 'dbt' }
+local DBT =
+  { 'uvx', '--quiet', '--python', '3.12', '--from', 'dbt-core==1.10.*', '--with', 'dbt-duckdb==1.10.*', 'dbt' }
 
 local function copy_project()
   local dir = vim.fn.tempname()
